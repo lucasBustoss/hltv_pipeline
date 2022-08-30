@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  airflow:
+    image: lucasbustos/hltv_pipeline:1.0
+    networks: 
+      - default
+    environment:
+        - DBT_USER=${PG_USER}
+        - DBT_PASSWORD=${PG_PASSWORD}
+        - DBT_DB=${PG_DB}
+        - DBT_SCHEMA_DEV=${PG_SCHEMA_DEV}
+        - DBT_SCHEMA_PROD=${PG_SCHEMA_PROD}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hltv_pipeline
+    volumes: 
+      - ${DATALAKE_FOLDER}:/datalake
+    privileged: true
+    ports:
+      - '3000:8080' # Airflow webserver
+      - '9001:9001' # Supervisord web interface
+  db:
+    container_name: hltv_data
+    image: postgres
+    networks: 
+      - default
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    volumes:
+      - ./sql/create_and_fill_tables.sql:/docker-entrypoint-initdb.d/create_and_fill_tables.sql
+networks:
+  default:
+    driver: bridge

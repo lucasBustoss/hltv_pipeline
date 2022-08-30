@@ -1,0 +1,24 @@
+hltv_data:
+  outputs:
+
+    dev:
+      type: postgres
+      threads: 4
+      host: hltv_data
+      port: 5432
+      user: "{{ env_var('DBT_USER') }}"
+      pass: "{{ env_var('DBT_PASSWORD') }}"
+      dbname: "{{ env_var('DBT_DB') }}"
+      schema: "{{ env_var('DBT_SCHEMA_DEV') }}"
+
+    prod:
+      type: postgres
+      threads: 4
+      host: hltv_data
+      port: 5432
+      user: "{{ env_var('DBT_USER') }}"
+      pass: "{{ env_var('DBT_PASSWORD') }}"
+      dbname: "{{ env_var('DBT_DB') }}"
+      schema: "{{ env_var('DBT_SCHEMA_PROD') }}"
+
+  target: dev

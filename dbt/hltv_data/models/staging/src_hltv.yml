@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: hltv
+    description: A clone of a Postgres application database.
+    database: hltv
+    schema: raw
+    tables:
+      - name: maps
+        description: Raw maps data.
+      - name: maps_results
+        description: Raw results for each map data.
+      - name: maps_vetos
+        description: Raw vetos for each map data.
+      - name: matchs
+        description: Raw matchs data.
+        columns:
+          - name: match_id
+            description: Primary key for matchs
+      - name: match_stats
+        description: Raw stats for each match data.
+      - name: players
+        description: Raw players data.
+        columns:
+          - name: player_id
+            description: Primary key for customers
+      - name: teams
+        description: Raw teams data.
+        columns:
+          - name: team_id
+            description: Primary key for customers
